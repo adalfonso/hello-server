@@ -28,7 +28,7 @@ Download [my repository](https://github.com/adalfonso/hello-server) as the basis
 Clone the repo:
 
 ```bash
-git clone git@github.com:adalfonso/hello-server.git
+git clone https://github.com/adalfonso/hello-server.git
 ```
 
 Enter repo and install:
@@ -61,13 +61,20 @@ All this does is start an HTTP server with a single route, `/`, which just displ
 Next, we need a `Dockerfile`:
 
 ```docker
+# Base image - node v18 LTS
 FROM node:18-alpine
+
+# Working directory where the below commands get executed
 WORKDIR /usr/src/app
-COPY package.json .
+
+# Copy package.json & package-lock.json to working directory
+COPY package*.json ./
+
+# Install npm packages
 RUN npm i
+
+# Copy source code into working directory
 COPY . .
-EXPOSE 3000
-CMD ["npm","start"]
 ```
 
 `Dockerfile` configures how Docker builds the image, including which base image to use. As I am using the current node LTS, I went with `node:18-alpine`.

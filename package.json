@@ -6,7 +6,7 @@
   "license": "ISC",
   "scripts": {
     "start": "rimraf dist && tsc && node dist/index.js",
-    "docker": "docker-compose up",
+    "docker": "docker-compose up --build",
     "build": "docker build -t adalfonso/hello-server:latest .",
     "publish": "docker push adalfonso/hello-server:latest"
   },
