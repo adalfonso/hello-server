@@ -98,6 +98,8 @@ services:
 
 `docker-compose.yml` allows me to manage my Docker containers locally via `docker-compose`. This is much more convenient in the long run as I can pre-configure how the container interacts with its host system without having to run a bunch of `docker` commands manually.
 
+**n.b.** Unraid does not use `docker-compose` by default and will rely solely on the Dockerfile.
+
 If you want to do anything fancy like configure ports, add local storage volumes, or set up a database, you will have to make additional changes to these Docker files as necessary.
 
 For local development you can verify that your container builds by running:

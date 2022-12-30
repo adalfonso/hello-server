@@ -15,3 +15,5 @@ COPY tsconfig.json .
 
 # Install npm packages
 RUN npm i
+
+CMD [ "npm", "start" ]
