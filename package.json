@@ -1,11 +1,14 @@
 {
   "name": "hello-server",
-  "private": true,
+  "description": "How to Create a DIY Docker Container for Your Unraid Server",
   "version": "0.0.0",
   "type": "module",
+  "license": "ISC",
   "scripts": {
     "start": "node src/index.js",
-    "docker": "docker-compose up"
+    "docker": "docker-compose up",
+    "build": "docker build -t adalfonso/hello-server:latest .",
+    "publish": "docker push adalfonso/hello-server:latest"
   },
   "dependencies": {
     "express": "^4.18.2"
