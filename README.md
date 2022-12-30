@@ -1,19 +1,20 @@
 ## How to Create a DIY Docker Container for Your Unraid Server
 
-Unraid is awesome, and so are Docker containers. You may have installed Docker images through Community Applications before, but did not realize how easy it is to create your own from scratch.
+Unraid is awesome, and so are Docker containers. I've been using Docker images from Community Applications on Unraid for years, and have always kinda wondered how hard it would be to just create my own from scratch. Turns out it was actually pretty straight forward, and I want share the process I went through to make it happen
 
 In this guide I will cover:
 
 1. Setting up a basic HTTP server with node (our application)
 2. Publishing an image to hub.docker.com
-3. Running the Application on an Unraid Server
+3. Running the container on an Unraid Server
 
 ---
 
 #### Prerequisites
 
-You will need to have the following installed on your system:
+You will need to have the following programs installed the system where you will develop and test this on:
 
+- git
 - node/npm
 - docker
 - docker-compose
@@ -22,11 +23,21 @@ You will need to have the following installed on your system:
 
 #### 1) Setting up a Basic HTTP Server with Node
 
-You can download [my repository](https://github.com/adalfonso/hello-server) as the basis for your application.
+Download [my repository](https://github.com/adalfonso/hello-server) as the basis for your application. I will not go over every file in exact detail, but I will cover the highlights.
 
-Install dependencies with `npm i`.
+Clone the repo:
 
-For this application I decided to create an HTTP server with [nodejs](https://nodejs.org/en/) & [Typescript](https://www.typescriptlang.org/), but you can adapt your application to use any technologies you want.
+```bash
+git clone git@github.com:adalfonso/hello-server.git
+```
+
+Enter repo and install:
+
+```bash
+cd hello-server && npm i
+```
+
+For this application I decided to create an HTTP server with [nodejs](https://nodejs.org/en/) and [Typescript](https://www.typescriptlang.org/); two technologies that I use regularly which are pretty lean for this quick project. However, you can adapt your application to use any technologies you want.
 
 The source is dead simple. It's just a [hello world](https://expressjs.com/en/starter/hello-world.html) for expressjs:
 
@@ -53,11 +64,13 @@ Next, we need a `Dockerfile`:
 FROM node:18-alpine
 WORKDIR /usr/src/app
 COPY package.json .
-RUN npm install --silent
+RUN npm i
 COPY . .
 EXPOSE 3000
 CMD ["npm","start"]
 ```
+
+`Dockerfile` configures how Docker builds the image, including which base image to use. As I am using the current node LTS, I went with `node:18-alpine`.
 
 And `docker-compose.yml`:
 
@@ -73,8 +86,10 @@ services:
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules/
-    command: npm run start
+    command: npm start
 ```
+
+`docker-compose.yml` allows me to manage my Docker containers locally via `docker-compose`. This is much more convenient in the long run as I can pre-configure how the container interacts with its host system without having to run a bunch of `docker` commands manually.
 
 If you want to do anything fancy like configure ports, add local storage volumes, or set up a database, you will have to make additional changes to these Docker files as necessary.
 
@@ -96,7 +111,7 @@ Sign up for an account on https://hub.docker.com. I created a free account which
 
 Next, create a repository where you will provide the `Name` of your application.
 
-From there we need to log into Docker from our machine:
+From there we need to log in to Docker from our machine:
 
 ```bash
 docker login
