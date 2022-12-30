@@ -70,11 +70,14 @@ WORKDIR /usr/src/app
 # Copy package.json & package-lock.json to working directory
 COPY package*.json ./
 
+# Copy source code into working directory
+COPY src ./src
+
+# Copy tsconfig
+COPY tsconfig.json .
+
 # Install npm packages
 RUN npm i
-
-# Copy source code into working directory
-COPY . .
 ```
 
 `Dockerfile` configures how Docker builds the image, including which base image to use. As I am using the current node LTS, I went with `node:18-alpine`.
@@ -90,9 +93,6 @@ services:
       context: .
     ports:
       - 3000:3000
-    volumes:
-      - ./:/usr/src/app
-      - /usr/src/app/node_modules/
     command: npm start
 ```
 
