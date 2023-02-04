@@ -168,3 +168,16 @@ Go to the `Docker` tab in your Unraid server and click `Add Container`.
 Then visit `http://your_unraid_server:3000`
 
 And that's it!
+
+---
+
+#### Bonus - Choose Port on Unraid Server
+
+Let's customize the port that our container uses on the server and edit the container.
+
+- Change `Network Type` to bridge.
+- Click `Add another Path, Port...`
+- Set `Config Type` to `Path`
+- Name it something like "Hello Server Port"
+- Choose `3000` for the `Container Port`
+- Choose whatever port number you want for `Host Port`
